@@ -12,8 +12,10 @@ RUN npm run build
 FROM maven:3.8.2-jdk-11 AS backend-build
 WORKDIR /app
 
-# Копируем серверные файлы и билд фронтенда
-COPY ./server/Notes ./server/Notes
+# Копируем серверные файлы (в том числе из quicknotes/server/Notes)
+COPY ./quicknotes/server/Notes ./server/Notes
+
+# Билдим фронтенд, если не сделали этого на предыдущем этапе
 COPY --from=frontend-build /app/client/build ./server/Notes/src/main/resources/static
 
 # Собираем бэкенд
