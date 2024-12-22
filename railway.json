@@ -1,6 +1,6 @@
 {
   "build": {
-    "dockerfilePath": "server/Dockerfile",
+    "dockerfilePath": "server/Notes/Dockerfile",
     "context": "."
   }
 }
