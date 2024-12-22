@@ -9,7 +9,7 @@ RUN npm install
 RUN npm run build
 
 # Этап 2: Сборка бэкенда
-FROM maven:3.8.2-jdk-11 AS backend-build
+FROM maven:3.8.2-jdk-17 AS backend-build
 WORKDIR /app
 
 # Копируем серверные файлы и билд фронтенда
@@ -21,7 +21,7 @@ WORKDIR /app/server/Notes
 RUN mvn clean package -DskipTests
 
 # Этап 3: Финальная сборка и запуск
-FROM openjdk:17
+FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Копируем финальный JAR-файл
