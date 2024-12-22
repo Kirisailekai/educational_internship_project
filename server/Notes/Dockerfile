@@ -16,8 +16,11 @@ WORKDIR /app
 COPY ./server/notes ./server
 COPY --from=frontend-build /app/client/build ./server/src/main/resources/static
 
-# Переходим в директорию с pom.xml и собираем бэкенд
+# Убедимся, что файл pom.xml есть в рабочей директории
 WORKDIR /app/server
+RUN ls -la  # Для проверки файлов
+
+# Собираем бэкенд без профиля prod
 RUN mvn clean package -DskipTests
 
 # Этап 3: Финальная сборка и запуск
