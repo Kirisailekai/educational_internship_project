@@ -13,7 +13,7 @@ FROM maven:3.8.2-jdk-11 AS backend-build
 WORKDIR /app
 
 # Копируем серверные файлы и билд фронтенда
-COPY server/ ./server
+COPY ./server/notes ./server
 COPY --from=frontend-build /app/client/build ./server/src/main/resources/static
 
 # Собираем бэкенд
