@@ -9,7 +9,7 @@ RUN npm install
 RUN npm run build
 
 # Этап 2: Сборка бэкенда
-FROM maven:3.8.6-openjdk-17 AS backend-build
+FROM maven:4.0.0-openjdk-17 AS backend-build
 WORKDIR /app
 
 # Копируем серверные файлы и билд фронтенда
