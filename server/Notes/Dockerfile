@@ -8,23 +8,20 @@ WORKDIR /app/client
 RUN npm install
 RUN npm run build
 
-# Этап 2: Сборка бэкенда
-FROM maven:3.8.2-jdk-17 AS backend-build
+# Этап 2: Сборка бэкенда с использованием Amazon Corretto 17
+FROM amazoncorretto:17 AS backend-build
 WORKDIR /app
 
 # Копируем серверные файлы и билд фронтенда
 COPY ./server/Notes ./server/Notes
 COPY --from=frontend-build /app/client/build ./server/Notes/src/main/resources/static
 
-# Устанавливаем переменную окружения для правильной работы Java
-ENV JAVA_HOME=/usr/local/openjdk-17
-
 # Собираем бэкенд
 WORKDIR /app/server/Notes
 RUN mvn clean package -DskipTests
 
 # Этап 3: Финальная сборка и запуск
-FROM openjdk:17-jdk-slim
+FROM amazoncorretto:17-slim
 WORKDIR /app
 
 # Копируем финальный JAR-файл
