@@ -12,16 +12,12 @@ RUN npm run build
 FROM maven:3.8.2-jdk-11 AS backend-build
 WORKDIR /app
 
-# Копируем серверные файлы (включая папку с pom.xml)
-COPY ./quicknotes/server/Notes /app/server/Notes
+# Копируем серверные файлы и билд фронтенда
+COPY ./server/Notes ./server/Notes
+COPY --from=frontend-build /app/client/build ./server/Notes/src/main/resources/static
 
-# Билдим фронтенд, если не сделали этого на предыдущем этапе
-COPY --from=frontend-build /app/client/build /app/server/Notes/src/main/resources/static
-
-# Устанавливаем рабочую директорию для Maven
+# Собираем бэкенд
 WORKDIR /app/server/Notes
-
-# Собираем бэкенд (без профиля prod)
 RUN mvn clean package -DskipTests
 
 # Этап 3: Финальная сборка и запуск
