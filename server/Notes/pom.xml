@@ -72,4 +72,11 @@
 		</plugins>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>prod</id>
+			<!-- Здесь ваши настройки для prod профиля -->
+		</profile>
+	</profiles>
+
 </project>
