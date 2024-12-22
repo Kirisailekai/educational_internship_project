@@ -16,6 +16,9 @@ WORKDIR /app
 COPY ./server/Notes ./server/Notes
 COPY --from=frontend-build /app/client/build ./server/Notes/src/main/resources/static
 
+# Устанавливаем переменную окружения для правильной работы Java
+ENV JAVA_HOME=/usr/local/openjdk-17
+
 # Собираем бэкенд
 WORKDIR /app/server/Notes
 RUN mvn clean package -DskipTests
