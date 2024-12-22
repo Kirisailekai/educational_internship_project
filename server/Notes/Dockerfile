@@ -3,7 +3,7 @@ FROM node:18 AS frontend-build
 WORKDIR /app
 
 # Копируем файлы клиента и устанавливаем зависимости
-COPY client/ ./client
+COPY ./client ./client
 WORKDIR /app/client
 RUN npm install
 RUN npm run build
@@ -16,16 +16,16 @@ WORKDIR /app
 COPY ./server/notes ./server
 COPY --from=frontend-build /app/client/build ./server/src/main/resources/static
 
-# Собираем бэкенд
+# Переходим в директорию с pom.xml и собираем бэкенд
 WORKDIR /app/server
-RUN mvn clean package -Pprod -DskipTests
+RUN mvn clean package -DskipTests
 
 # Этап 3: Финальная сборка и запуск
 FROM openjdk:11-jdk-slim
 WORKDIR /app
 
-# Копируем финальный артефакт
-COPY --from=backend-build /app/server/target/Notes-0.0.1-SNAPSHOT.jar Notes.jar
+# Копируем финальный JAR-файл
+COPY --from=backend-build /app/server/target/*.jar Notes.jar
 
 # Экспонируем порт и запускаем приложение
 EXPOSE 8080
