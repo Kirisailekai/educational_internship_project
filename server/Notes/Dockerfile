@@ -21,7 +21,7 @@ WORKDIR /app/server/Notes
 RUN mvn clean package -DskipTests
 
 # Этап 3: Финальная сборка и запуск
-FROM openjdk:11-jdk-slim
+FROM openjdk:17
 WORKDIR /app
 
 # Копируем финальный JAR-файл
